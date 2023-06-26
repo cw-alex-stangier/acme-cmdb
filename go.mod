@@ -1,4 +1,4 @@
-module acme/cmdb
+module acme_cmdb
 
 go 1.20
 

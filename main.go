@@ -1,11 +1,19 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"errors"
 	"net/http"
 
+	compute "cloud.google.com/go/compute/apiv1"
+	computepb "cloud.google.com/go/compute/apiv1/computepb"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 )
 
+// AuthMessage struct serves to represent a Service Account JSON Keyfile
 type AuthMessage struct {
 	Type                        string `json:"type"`
 	Project_Id                  string `json:"project_id"`
@@ -19,6 +27,9 @@ type AuthMessage struct {
 	Client_X509_Cert_Url        string `json:"client_x509_cert_url"`
 	Universe_Domain             string `json:"universe_domain"`
 }
+
+var authMessage AuthMessage
+var ctx context.Context
 
 func main() {
 	router := gin.Default()
@@ -37,17 +48,69 @@ func main() {
 }
 
 func getInstances(context *gin.Context) {
-	//id := context.Query("id")
+	client, err := authToGCP(context)
+	if err != nil {
+		context.JSON(401, gin.H{
+			"message": err.Error(),
+		})
+	}
 
-	//TODO add branching for explicit id
+	defer client.Close()
+
+	responseChannel := make(chan *compute.InstancesScopedListPairIterator)
+	go awaitList(client, ctx, responseChannel)
+	instances := <-responseChannel
+
+	for {
+		resp, err := instances.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			// TODO: Handle error.
+		}
+		// TODO: Use resp.
+		_ = resp
+	}
+
+	context.JSON(200, gin.H{
+		"message": instances.Response,
+	})
+}
+
+// Tries to authenticate to GCP Console using a supplied service account json key file
+// If authentication is successfull a client Object will be returned, if not
+// a error will be thrown.
+func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
+
+	//try binding post body message to AuthMessage struct
 	msg := AuthMessage{}
-
-	if err := context.ShouldBindJSON(&msg); err != nil {
-		context.AbortWithStatusJSON(http.StatusBadRequest,
+	if err := c.ShouldBindJSON(&msg); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
 			gin.H{
 				"error":   "Validation",
 				"message": "Invalid inputs. Please check your inputs"})
-		return
 	}
-	context.JSON(200, &msg)
+
+	authMessage = msg
+	jsonPayload, err := json.Marshal(msg)
+	if err != nil {
+		return nil, errors.New("Authentication using the supplied json token failed: " + err.Error())
+	}
+
+	//auth towards GCP
+	ctx = context.Background()
+	client, err := compute.NewInstancesRESTClient(ctx, option.WithCredentialsJSON(jsonPayload))
+	if err != nil {
+		return nil, errors.New("Authentication using the supplied json token failed: " + err.Error())
+	}
+	return client, nil
+}
+
+// Await completion of get aggregated list of instances and return the result in a channel
+func awaitList(client *compute.InstancesClient, ctx context.Context, c chan *compute.InstancesScopedListPairIterator) {
+	req := &computepb.AggregatedListInstancesRequest{
+		Project: authMessage.Project_Id,
+	}
+	c <- client.AggregatedList(ctx, req)
 }
