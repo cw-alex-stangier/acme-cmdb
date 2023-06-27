@@ -16,7 +16,28 @@ provider "google" {
 #Create Cloud Source Repository
 resource "google_sourcerepo_repository" "repo" {
   name = "${var.academy_prefix}-${var.project_name}-repo"
+  
+  mirrorConfig  {
+    url = "https://github.com/cw-alex-stangier/acme-cmdb/",
+
+  }
 }
+
+#Add cloud Build trigger
+resource "google_cloudbuild_trigger" "trigger" {
+  location = "EU"
+
+  github {
+    owner = var.gh_owner
+    name  = var.gh_repo
+    push {
+      branch = "^main$"
+    }
+}
+
+
+#Add cloud Build
+
 
 #Create Artifact Registry
 resource "google_artifact_registry_repository" "registry" {
@@ -26,19 +47,4 @@ resource "google_artifact_registry_repository" "registry" {
   format        = "DOCKER"
 }
 
-#Create Service Acount
-resource "google_service_account" "service_account" {
-  account_id   = "${var.academy_prefix}-${var.project_name}"
-  display_name = "${var.academy_prefix}-${var.project_name}-worker"
-  description   = "ACME CMDB Service Account"
-}
 
-#Add Compute Admin Role to service account
-resource "google_service_account_iam_binding" "admin-account-iam" {
-  service_account_id = google_service_account.service_account.name
-  role               = "roles/iam.computeAdmin"
-
-  members = [
-    "serviceAccount:${google_service_account.service_account.email}",
-  ]
-}

@@ -24,3 +24,11 @@ variable "project" {
   nullable = false
   description = "Project Id."
 }
+
+variable "gh_owner" {
+    type = string
+}
+
+variable "gh_repo" {
+    type = string
+}
