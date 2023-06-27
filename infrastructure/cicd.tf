@@ -37,9 +37,6 @@ resource "google_cloudbuild_trigger" "trigger" {
   filename = "../cloudbuild.yaml"
 }
 
-#Add cloud Build
-
-
 #Create Artifact Registry
 resource "google_artifact_registry_repository" "registry" {
   location      = var.target_region
@@ -49,3 +46,9 @@ resource "google_artifact_registry_repository" "registry" {
 }
 
 
+#Create bucket to store logs
+resource "google_storage_bucket" "static-site" {
+  name          = "${var.academy_prefix}-${var.project_name}-logs"
+  location      = "EU"
+}
+ 

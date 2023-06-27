@@ -6,7 +6,7 @@ resource "google_service_account" "service_account" {
 }
 
 #Add Compute Admin Role to service account
-resource "google_service_account_iam_binding" "admin-account-iam" {
+resource "google_service_account_iam_binding" "compute_admin" {
   service_account_id = google_service_account.service_account.name
   role               = "roles/iam.computeAdmin"
 
@@ -16,7 +16,7 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
 }
 
 #Add Storage Admin Role to service account
-resource "google_service_account_iam_binding" "admin-account-iam" {
+resource "google_service_account_iam_binding" "storage_admin" {
   service_account_id = google_service_account.service_account.name
   role               = "roles/iam.storageAdmin"
 
@@ -26,7 +26,7 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
 }
 
 #Add CloudBuild Editor Role to service account
-resource "google_service_account_iam_binding" "admin-account-iam" {
+resource "google_service_account_iam_binding" "cloudbuild_editor" {
   service_account_id = google_service_account.service_account.name
   role               = "roles/iam.cloudbuild.builds.editor"
 
