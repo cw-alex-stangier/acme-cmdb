@@ -16,7 +16,6 @@ provider "google" {
 #Create Cloud Source Repository
 resource "google_sourcerepo_repository" "repo" {
   name = "${var.academy_prefix}-${var.project_name}-repo"
-  description   = "ACME CMDB Source Repository"
 }
 
 #Create Artifact Registry
