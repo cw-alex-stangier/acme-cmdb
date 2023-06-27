@@ -8,7 +8,7 @@ terraform {
 }
 
 locals {
-  project = var.project
+  project = var.project_name
   services = [
     "sourcerepo.googleapis.com",
     "cloudbuild.googleapis.com",
@@ -83,7 +83,7 @@ resource "google_project_iam_member" "cloudbuild_roles" {
   for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
   project    = local.project
   role       = each.key
-  member     = google_service_account.service_account.id
+  member     = google_service_account.service_account.email
 }
 
 
