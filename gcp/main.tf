@@ -80,16 +80,16 @@ resource "google_service_account" "service_account" {
 }
 
 #Add Compute Admin Role to service account
-resource "google_service_account_iam_binding" "compute_admin" {
-  service_account_id = google_service_account.service_account.name
-
-  for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
-  role       = each.key
-
-  members = [
-    "serviceAccount:${google_service_account.service_account.email}",
-  ]
-}
+#resource "google_service_account_iam_binding" "compute_admin" {
+#  service_account_id = google_service_account.service_account.name
+#
+#  for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
+#  role       = each.key
+#
+##  members = [
+#    "serviceAccount:${google_service_account.service_account.email}",
+#  ]
+#}
 
 resource "google_cloud_run_service" "service" {
   name     = "${var.academy_prefix}-${var.project_name}-run"
