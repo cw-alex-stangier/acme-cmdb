@@ -21,3 +21,6 @@
 go.work
 
 cmdb
+
+#ignore tf state
+*.tfstate
