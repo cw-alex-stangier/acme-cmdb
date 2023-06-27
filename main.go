@@ -1,3 +1,4 @@
+// GCP REST Services for ACME CMDB
 package main
 
 import (
@@ -32,15 +33,23 @@ type AuthMessage struct {
 var authMessage AuthMessage
 var ctx context.Context
 
-// Handles Routing inside the REST API Scope
+// @title						Swagger ACME CMDB GCP API
+// @version					1.0
+// @description				GCP REST Services for ACME CMDB.
+// @BasePath					/
+// @externalDocs.description	OpenAPI
+// @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	router := gin.Default()
+	//gin.SetMode(gin.ReleaseMode)
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
+
+	//router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// handle get_compute_engine requests
 	router.POST("/get_compute_engines", getInstances)
@@ -81,7 +90,13 @@ func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
 	return client, nil
 }
 
-// Queries all zones for instances in project used in json key file
+// @Title			List Compute Engines
+// @Version		1.0
+// @Description	Queries all zones for instances in project used in json key file.
+// @Description	Needs a service worker JSON Key file to authenticate inside the Body.
+// @BasePath		/get_compute_engines
+// @accept			json
+// @produce		json
 func getInstances(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
@@ -115,7 +130,15 @@ func getInstances(context *gin.Context) {
 	})
 }
 
-// Tries to set the desired state on a supplied instance in a supplied zone.
+// @Title			Change State of Compute Engines
+// @Version		1.0
+// @Description	Tries to set the desired state on a supplied instance in a supplied zone.
+// @Description	Needs a service worker JSON Key file to authenticate inside the Body.
+// @BasePath		/set_state
+// @Param			name	query	string	true	"string default"	default(A)
+// @Param			zone	query	string	true	"string default"	default(A)
+// @accept			json
+// @produce		json
 func setState(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
