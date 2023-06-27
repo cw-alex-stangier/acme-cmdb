@@ -47,7 +47,7 @@ resource "google_artifact_registry_repository" "registry" {
 
 
 #Create bucket to store logs
-resource "google_storage_bucket" "static-site" {
+resource "google_storage_bucket" "logs" {
   name          = "${var.academy_prefix}-${var.project_name}-logs"
   location      = "EU"
 }

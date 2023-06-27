@@ -1,5 +1,5 @@
 output "bucket" {
-  value = aws_instance.server.private_ip
+  value = google_storage_bucket.logs.name
 }
 
 output "random" {
