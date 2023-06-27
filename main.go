@@ -32,6 +32,7 @@ type AuthMessage struct {
 var authMessage AuthMessage
 var ctx context.Context
 
+// Handles Routing inside the REST API Scope
 func main() {
 	router := gin.Default()
 
@@ -44,7 +45,7 @@ func main() {
 	// handle get_compute_engine requests
 	router.POST("/get_compute_engines", getInstances)
 
-	// handle
+	// handle desired state changes
 	router.POST("/set_state", setState)
 
 	// listen and serve on 0.0.0.0:8080
@@ -91,6 +92,7 @@ func getInstances(context *gin.Context) {
 
 	defer client.Close()
 
+	// pretty print json
 	responseChannel := make(chan *compute.InstancesScopedListPairIterator)
 	go awaitList(client, ctx, responseChannel)
 	instances := <-responseChannel
@@ -113,6 +115,7 @@ func getInstances(context *gin.Context) {
 	})
 }
 
+// Tries to set the desired state on a supplied instance in a supplied zone.
 func setState(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
@@ -122,56 +125,62 @@ func setState(context *gin.Context) {
 	}
 
 	instanceName := context.Query("name")
-	desiredState := context.Query("state")
+	desiredState := strings.ToLower(context.Query("state"))
 	zone := context.Query("zone")
 
-	println(instanceName)
-	println(desiredState)
+	supportedSates := []string{"start", "stop"}
 
-	defer client.Close()
+	if contains(supportedSates, desiredState) {
 
-	var op *compute.Operation
-	var errState error
+		defer client.Close()
 
-	if strings.EqualFold("Start", desiredState) {
-		req := &computepb.StartInstanceRequest{
-			Instance: instanceName,
-			Project:  authMessage.Project_Id,
-			Zone:     zone,
+		var op *compute.Operation
+		var errState error
+
+		if strings.EqualFold("Start", desiredState) {
+			req := &computepb.StartInstanceRequest{
+				Instance: instanceName,
+				Project:  authMessage.Project_Id,
+				Zone:     zone,
+			}
+
+			op, errState = client.Start(ctx, req)
+			if errState != nil {
+				context.JSON(500, gin.H{
+					"message": "Error occured while starting:" + errState.Error(),
+				})
+			}
+		}
+		if strings.EqualFold("Stop", desiredState) {
+			req := &computepb.StopInstanceRequest{
+				Instance: instanceName,
+				Project:  authMessage.Project_Id,
+				Zone:     zone,
+			}
+
+			op, errState = client.Stop(ctx, req)
+			if errState != nil {
+				context.JSON(500, gin.H{
+					"message": "Error occured while stopping:" + errState.Error(),
+				})
+			}
 		}
 
-		op, errState = client.Start(ctx, req)
+		errState = op.Wait(ctx)
 		if errState != nil {
 			context.JSON(500, gin.H{
-				"message": "Error occured while starting:" + errState.Error(),
+				"message": "Failed to change state" + errState.Error(),
 			})
 		}
-	}
-	if strings.EqualFold("Stop", desiredState) {
-		req := &computepb.StopInstanceRequest{
-			Instance: instanceName,
-			Project:  authMessage.Project_Id,
-			Zone:     zone,
-		}
 
-		op, errState = client.Stop(ctx, req)
-		if errState != nil {
-			context.JSON(500, gin.H{
-				"message": "Error occured while stopping:" + errState.Error(),
-			})
-		}
-	}
-
-	errState = op.Wait(ctx)
-	if errState != nil {
-		context.JSON(500, gin.H{
-			"message": "Failed to change state" + errState.Error(),
+		context.JSON(http.StatusOK, gin.H{
+			"result": "State of " + instanceName + " changed to " + desiredState,
+		})
+	} else {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{
+			"message": desiredState + " is not supported.",
 		})
 	}
-
-	context.JSON(http.StatusOK, gin.H{
-		"status": "State of " + instanceName + " changed to " + desiredState,
-	})
 
 }
 
@@ -181,6 +190,17 @@ func awaitList(client *compute.InstancesClient, ctx context.Context, c chan *com
 		Project: authMessage.Project_Id,
 	}
 	c <- client.AggregatedList(ctx, req)
+}
+
+// contains checks if a string is present in a slice
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
 }
 
 //TODO fix error handling
