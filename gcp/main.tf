@@ -15,7 +15,7 @@ locals {
     "run.googleapis.com",
     "iam.googleapis.com",
   ]
-  image = "eu.gcr.io/${local.project}/${var.academy_prefix}-${var.project_name}-${random_string.random.result}-img"
+  image = "eu.gcr.io/${var.project}/${var.academy_prefix}-${var.project_name}-${random_string.random.result}-img"
 }
 
 resource "random_string" "random" {
@@ -81,7 +81,7 @@ resource "google_service_account" "service_account" {
 
 resource "google_project_iam_member" "cloudbuild_roles" {
   for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
-  project    = local.project
+  project    = var.projectct
   role       = each.key
   member     = google_service_account.service_account.email
 }
@@ -111,7 +111,7 @@ data "google_iam_policy" "admin" {
 
 resource "google_cloud_run_service_iam_policy" "policy" {
   location    = var.target_region
-  project     = local.project
+  project     = var.project
   service     = google_cloud_run_service.service.name
   policy_data = data.google_iam_policy.admin.policy_data
 }
