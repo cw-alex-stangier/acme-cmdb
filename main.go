@@ -41,7 +41,7 @@ var ctx context.Context
 // @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	router := gin.Default()
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
