@@ -16,11 +16,6 @@ provider "google" {
 #Create Cloud Source Repository
 resource "google_sourcerepo_repository" "repo" {
   name = "${var.academy_prefix}-${var.project_name}-repo"
-  
-  mirrorConfig  {
-    url = "https://github.com/cw-alex-stangier/acme-cmdb/",
-
-  }
 }
 
 #Add cloud Build trigger
@@ -33,8 +28,8 @@ resource "google_cloudbuild_trigger" "trigger" {
     push {
       branch = "^main$"
     }
+  } 
 }
-
 
 #Add cloud Build
 
