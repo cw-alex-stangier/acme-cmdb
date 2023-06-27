@@ -8,29 +8,16 @@ resource "google_service_account" "service_account" {
 #Add Compute Admin Role to service account
 resource "google_service_account_iam_binding" "compute_admin" {
   service_account_id = google_service_account.service_account.name
-  role               = "roles/iam.computeAdmin"
+  role               = google_project_iam_custom_role.custom-role.name
 
   members = [
     "serviceAccount:${google_service_account.service_account.email}",
   ]
 }
 
-#Add Storage Admin Role to service account
-resource "google_service_account_iam_binding" "storage_admin" {
-  service_account_id = google_service_account.service_account.name
-  role               = "roles/iam.storageAdmin"
-
-  members = [
-    "serviceAccount:${google_service_account.service_account.email}",
-  ]
-}
-
-#Add CloudBuild Editor Role to service account
-resource "google_service_account_iam_binding" "cloudbuild_editor" {
-  service_account_id = google_service_account.service_account.name
-  role               = "roles/iam.cloudbuild.builds.editor"
-
-  members = [
-    "serviceAccount:${google_service_account.service_account.email}",
-  ]
+resource "google_project_iam_custom_role" "custom-role" {
+  role_id     = "${var.academy_prefix}-${var.project_name}-sa-role"
+  title       = "${var.academy_prefix}-${var.project_name}-sa-role"
+  description = "ACME CMDB Custom Role"
+  permissions = ["roles/compute.instanceAdmin", "roles/storage.objectAdmin", "roles/cloudbuild.builds.editor"]
 }
