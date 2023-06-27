@@ -20,7 +20,7 @@ resource "google_project_iam_custom_role" "custom-role" {
   title       = "${var.academy_prefix}-${var.project_name}-sa-role"
   description = "ACME CMDB Custom Role"
   permissions = [
-    "compute.zones.list", 
-    "compute.instances.list"
+    "roles/compute.zones.list"
+    #"roles/compute."
     ]
 }
