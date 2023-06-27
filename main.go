@@ -63,13 +63,13 @@ func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
 		c.AbortWithStatusJSON(http.StatusBadRequest,
 			gin.H{
 				"error":   "Validation",
-				"message": "Invalid inputs. Please check your inputs"})
+				"message": "Invalid inputs. Please check your json key file."})
 	}
 
 	authMessage = msg
 	jsonPayload, err := json.Marshal(msg)
 	if err != nil {
-		return nil, errors.New("Authentication using the supplied json token failed: " + err.Error())
+		return nil, errors.New("JSON Key file couldn't be marshalled, please make sure its well formed : " + err.Error())
 	}
 
 	//auth towards GCP
@@ -86,7 +86,7 @@ func getInstances(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
 		context.JSON(401, gin.H{
-			"message": err.Error(),
+			"message": "Failed to authenticate to GCP: " + err.Error(),
 		})
 	}
 
@@ -104,7 +104,7 @@ func getInstances(context *gin.Context) {
 		}
 		if err != nil {
 			context.JSON(401, gin.H{
-				"message": err.Error(),
+				"message": "Internal error iterating result set: " + err.Error(),
 			})
 		}
 		_ = resp
@@ -120,8 +120,7 @@ func setState(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
 		context.JSON(401, gin.H{
-			"message": err.Error(),
-		})
+			"message": "Failed to authenticate to GCP: " + err.Error()})
 	}
 
 	instanceName := context.Query("name")
@@ -202,5 +201,3 @@ func contains(s []string, str string) bool {
 
 	return false
 }
-
-//TODO fix error handling
