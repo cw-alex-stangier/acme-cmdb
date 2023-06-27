@@ -24,17 +24,17 @@ resource "google_sourcerepo_repository" "repo" {
 }
 
 #Add cloud Build trigger
-resource "google_cloudbuild_trigger" "trigger" {
-  github {
-    owner = var.gh_owner
-    name  = var.gh_repo
-    push {
-      branch = "^main$"
-    }
-  } 
+#resource "google_cloudbuild_trigger" "trigger" {
+#  github {
+#    owner = var.gh_owner
+#    name  = var.gh_repo
+#   push {
+#     branch = "^main$"
+#   }
+# } 
 
-  filename = "../cloudbuild.yaml"
-}
+#  filename = "../cloudbuild.yaml"
+#}
 
 #Create Artifact Registry
 resource "google_artifact_registry_repository" "registry" {

@@ -19,5 +19,5 @@ resource "google_project_iam_custom_role" "custom-role" {
   role_id     = "acmecmdbRole"
   title       = "${var.academy_prefix}-${var.project_name}-sa-role"
   description = "ACME CMDB Custom Role"
-  permissions = ["roles/compute.instanceAdmin", "roles/storage.objectAdmin", "roles/cloudbuild.builds.editor"]
+  permissions = ["iam.roles.compute.instanceAdmin", "iam.roles.storage.objectAdmin", "iam.roles.cloudbuild.builds.editor"]
 }
