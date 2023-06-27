@@ -12,6 +12,10 @@ provider "google" {
   region = var.target_region
 }
 
+resource "random_string" "random" {
+  length = 5
+  lower  = false
+}
 
 #Create Cloud Source Repository
 resource "google_sourcerepo_repository" "repo" {
@@ -29,6 +33,8 @@ resource "google_cloudbuild_trigger" "trigger" {
       branch = "^main$"
     }
   } 
+
+  filename = "../cloudbuild.yaml"
 }
 
 #Add cloud Build
