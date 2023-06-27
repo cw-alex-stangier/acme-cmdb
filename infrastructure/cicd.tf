@@ -28,7 +28,7 @@ resource "google_artifact_registry_repository" "registry" {
 
 #Create Service Acount
 resource "google_service_account" "service_account" {
-  account_id   = "${var.academy_prefix}-${var.project_name}-worker"
+  account_id   = "${var.academy_prefix}-${var.project_name}"
   display_name = "${var.academy_prefix}-${var.project_name}-worker"
   description   = "ACME CMDB Service Account"
 }
