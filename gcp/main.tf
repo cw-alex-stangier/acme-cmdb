@@ -8,7 +8,7 @@ terraform {
 }
 
 locals {
-  project = var.project_id
+  project = var.project
   services = [
     "sourcerepo.googleapis.com",
     "cloudbuild.googleapis.com",
@@ -32,7 +32,7 @@ provider "google" {
 #Enable Services
 resource "google_project_service" "enabled_service" {
   for_each = toset(local.services)
-  project  = var.project_id
+  project  = var.project
   service  = each.key
   provisioner "local-exec" {
     command = "sleep 60"
