@@ -13,13 +13,13 @@ provider "google" {
 }
 
 resource "random_string" "random" {
-  length = 5
+  length = 8
   lower  = false
 }
 
 #Create Cloud Source Repository
 resource "google_sourcerepo_repository" "repo" {
-  name = "${var.academy_prefix}-${var.project_name}-repo"
+  name = "${var.academy_prefix}-${var.project_name}-repo-${random_string.random.result}"
 }
 
 #Add cloud Build trigger
