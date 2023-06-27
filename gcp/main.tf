@@ -84,7 +84,6 @@ resource "google_service_account_iam_binding" "compute_admin" {
   service_account_id = google_service_account.service_account.name
 
   for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
-  project    = var.project
   role       = each.key
 
   members = [
