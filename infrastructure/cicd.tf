@@ -14,7 +14,8 @@ provider "google" {
 
 resource "random_string" "random" {
   length = 8
-  lower  = false
+  upper  = false
+  special = false
 }
 
 #Create Cloud Source Repository
@@ -24,8 +25,6 @@ resource "google_sourcerepo_repository" "repo" {
 
 #Add cloud Build trigger
 resource "google_cloudbuild_trigger" "trigger" {
-  location = "EU"
-
   github {
     owner = var.gh_owner
     name  = var.gh_repo
