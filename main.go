@@ -13,9 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
-
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // AuthMessage struct serves to represent a Service Account JSON Keyfile
@@ -36,12 +33,12 @@ type AuthMessage struct {
 var authMessage AuthMessage
 var ctx context.Context
 
-//	@title						Swagger ACME CMDB GCP API
-//	@version					1.0
-//	@description				GCP REST Services for ACME CMDB.
-//	@BasePath					/
-//	@externalDocs.description	OpenAPI
-//	@externalDocs.url			https://swagger.io/resources/open-api/
+// @title						Swagger ACME CMDB GCP API
+// @version					1.0
+// @description				GCP REST Services for ACME CMDB.
+// @BasePath					/
+// @externalDocs.description	OpenAPI
+// @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	router := gin.Default()
 	//gin.SetMode(gin.ReleaseMode)
@@ -52,7 +49,7 @@ func main() {
 		})
 	})
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	//router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// handle get_compute_engine requests
 	router.POST("/get_compute_engines", getInstances)
@@ -93,13 +90,13 @@ func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
 	return client, nil
 }
 
-//	@Title			List Compute Engines
-//	@Version		1.0
-//	@Description	Queries all zones for instances in project used in json key file.
-//	@Description	Needs a service worker JSON Key file to authenticate inside the Body.
-//	@BasePath		/get_compute_engines
-//	@accept			json
-//	@produce		json
+// @Title			List Compute Engines
+// @Version		1.0
+// @Description	Queries all zones for instances in project used in json key file.
+// @Description	Needs a service worker JSON Key file to authenticate inside the Body.
+// @BasePath		/get_compute_engines
+// @accept			json
+// @produce		json
 func getInstances(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
@@ -133,15 +130,15 @@ func getInstances(context *gin.Context) {
 	})
 }
 
-//	@Title			Change State of Compute Engines
-//	@Version		1.0
-//	@Description	Tries to set the desired state on a supplied instance in a supplied zone.
-//	@Description	Needs a service worker JSON Key file to authenticate inside the Body.
-//	@BasePath		/set_state
-//	@Param			name	query	string	true	"string default"	default(A)
-//	@Param			zone	query	string	true	"string default"	default(A)
-//	@accept			json
-//	@produce		json
+// @Title			Change State of Compute Engines
+// @Version		1.0
+// @Description	Tries to set the desired state on a supplied instance in a supplied zone.
+// @Description	Needs a service worker JSON Key file to authenticate inside the Body.
+// @BasePath		/set_state
+// @Param			name	query	string	true	"string default"	default(A)
+// @Param			zone	query	string	true	"string default"	default(A)
+// @accept			json
+// @produce		json
 func setState(context *gin.Context) {
 	client, err := authToGCP(context)
 	if err != nil {
