@@ -79,14 +79,18 @@ resource "google_service_account" "service_account" {
   description   = "ACME CMDB Service Account"
 }
 
-resource "google_project_iam_member" "cloudbuild_roles" {
+#Add Compute Admin Role to service account
+resource "google_service_account_iam_binding" "compute_admin" {
+  service_account_id = google_service_account.service_account.name
+
   for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser"])
   project    = var.project
   role       = each.key
-  member     = google_service_account.service_account.email
+
+  members = [
+    "serviceAccount:${google_service_account.service_account.email}",
+  ]
 }
-
-
 
 resource "google_cloud_run_service" "service" {
   name     = "${var.academy_prefix}-${var.project_name}-run"
