@@ -1,0 +1,5 @@
+target_region = "europe-west1"
+target_zone = "europe-west1-b"
+academy_prefix = "AS"
+project_name = "ACME-CMDB"
+project = "cw-academy-g3-quest"
