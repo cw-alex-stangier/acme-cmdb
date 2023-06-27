@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strings"
 
 	compute "cloud.google.com/go/compute/apiv1"
 	computepb "cloud.google.com/go/compute/apiv1/computepb"
@@ -40,42 +41,14 @@ func main() {
 		})
 	})
 
-	// mirror post auth request back
+	// handle get_compute_engine requests
 	router.POST("/get_compute_engines", getInstances)
+
+	// handle
+	router.POST("/set_state", setState)
 
 	// listen and serve on 0.0.0.0:8080
 	router.Run()
-}
-
-func getInstances(context *gin.Context) {
-	client, err := authToGCP(context)
-	if err != nil {
-		context.JSON(401, gin.H{
-			"message": err.Error(),
-		})
-	}
-
-	defer client.Close()
-
-	responseChannel := make(chan *compute.InstancesScopedListPairIterator)
-	go awaitList(client, ctx, responseChannel)
-	instances := <-responseChannel
-
-	for {
-		resp, err := instances.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			// TODO: Handle error.
-		}
-		// TODO: Use resp.
-		_ = resp
-	}
-
-	context.JSON(200, gin.H{
-		"message": instances.Response,
-	})
 }
 
 // Tries to authenticate to GCP Console using a supplied service account json key file
@@ -107,6 +80,101 @@ func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
 	return client, nil
 }
 
+// Queries all zones for instances in project used in json key file
+func getInstances(context *gin.Context) {
+	client, err := authToGCP(context)
+	if err != nil {
+		context.JSON(401, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	defer client.Close()
+
+	responseChannel := make(chan *compute.InstancesScopedListPairIterator)
+	go awaitList(client, ctx, responseChannel)
+	instances := <-responseChannel
+
+	for {
+		resp, err := instances.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			context.JSON(401, gin.H{
+				"message": err.Error(),
+			})
+		}
+		_ = resp
+	}
+
+	context.JSON(200, gin.H{
+		"result": instances.Response,
+	})
+}
+
+func setState(context *gin.Context) {
+	client, err := authToGCP(context)
+	if err != nil {
+		context.JSON(401, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	instanceName := context.Query("name")
+	desiredState := context.Query("state")
+	zone := context.Query("zone")
+
+	println(instanceName)
+	println(desiredState)
+
+	defer client.Close()
+
+	var op *compute.Operation
+	var errState error
+
+	if strings.EqualFold("Start", desiredState) {
+		req := &computepb.StartInstanceRequest{
+			Instance: instanceName,
+			Project:  authMessage.Project_Id,
+			Zone:     zone,
+		}
+
+		op, errState = client.Start(ctx, req)
+		if errState != nil {
+			context.JSON(500, gin.H{
+				"message": "Error occured while starting:" + errState.Error(),
+			})
+		}
+	}
+	if strings.EqualFold("Stop", desiredState) {
+		req := &computepb.StopInstanceRequest{
+			Instance: instanceName,
+			Project:  authMessage.Project_Id,
+			Zone:     zone,
+		}
+
+		op, errState = client.Stop(ctx, req)
+		if errState != nil {
+			context.JSON(500, gin.H{
+				"message": "Error occured while stopping:" + errState.Error(),
+			})
+		}
+	}
+
+	errState = op.Wait(ctx)
+	if errState != nil {
+		context.JSON(500, gin.H{
+			"message": "Failed to change state" + errState.Error(),
+		})
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"status": "State of " + instanceName + " changed to " + desiredState,
+	})
+
+}
+
 // Await completion of get aggregated list of instances and return the result in a channel
 func awaitList(client *compute.InstancesClient, ctx context.Context, c chan *compute.InstancesScopedListPairIterator) {
 	req := &computepb.AggregatedListInstancesRequest{
@@ -114,3 +182,5 @@ func awaitList(client *compute.InstancesClient, ctx context.Context, c chan *com
 	}
 	c <- client.AggregatedList(ctx, req)
 }
+
+//TODO fix error handling
