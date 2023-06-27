@@ -1,5 +1,5 @@
 target_region = "europe-west1"
 target_zone = "europe-west1-b"
-academy_prefix = "AS"
-project_name = "ACME-CMDB"
+academy_prefix = "as"
+project_name = "acme-cmdb"
 project = "cw-academy-g3-quest"
