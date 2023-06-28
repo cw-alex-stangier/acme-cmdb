@@ -39,10 +39,8 @@ resource "google_service_account_iam_binding" "compute_admin" {
 #Create Keys 
 resource "google_service_account_key" "cicd-key" {
   service_account_id = google_service_account.service_account_cicd.name
-  public_key_type    = "JSON"
 }
 
 resource "google_service_account_key" "cmdb-key" {
   service_account_id = google_service_account.service_account_cmdb.name
-  public_key_type    = "JSON"
 }
