@@ -28,7 +28,7 @@ resource "google_service_account" "service_account_cmdb" {
 resource "google_service_account_iam_binding" "compute_admin" { 
   service_account_id = google_service_account.service_account_cmdb.name
 
-  for_each   = toset(["roles/compute.admin",])
+  for_each   = toset(["roles/compute.admin", "roles/iam.serviceAccountUser"])
   role       = each.key
 
   members = [
