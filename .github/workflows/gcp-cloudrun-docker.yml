@@ -100,7 +100,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           docker build -t "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:${{ github.sha }}" ./
-          docker push "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/amce:${{ github.sha }}"
+          docker push "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:${{ github.sha }}"
 
       # END - Docker auth and build
 
