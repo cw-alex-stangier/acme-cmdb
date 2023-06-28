@@ -7,7 +7,7 @@ resource "google_service_account" "service_account_cicd" {
 
 #Add Compute Admin Role to service account
 resource "google_service_account_iam_binding" "cicd" { 
-  service_account_id = google_service_account.service_account.name
+  service_account_id = google_service_account.service_account_cicd.name
 
   for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser", "roles/artifactregistry.admin"])
   role       = each.key
@@ -26,7 +26,7 @@ resource "google_service_account" "service_account_cmdb" {
 
 #Add Compute Admin Role to service account
 resource "google_service_account_iam_binding" "compute_admin" { 
-  service_account_id = google_service_account.service_account.name
+  service_account_id = google_service_account.service_account_cmdb.name
 
   for_each   = toset(["roles/compute.admin",])
   role       = each.key
