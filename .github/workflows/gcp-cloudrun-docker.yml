@@ -51,7 +51,7 @@ on:
 env:
   PROJECT_ID: 'cw-academy-sandbox-alex' # TODO: update Google Cloud project id
   GAR_LOCATION: 'europe-west1' # TODO: update Artifact Registry location
-  SERVICE: 'europe-west1/cw-academy-sandbox-alex/as-acme-cmdb-run' # TODO: update Cloud Run service name
+  SERVICE: 'as-acme-cmdb-run' # TODO: update Cloud Run service name
   REGION: 'europe-west1' # TODO: update Cloud Run service region
 
 jobs:
@@ -99,8 +99,8 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker build -t "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:1338" ./
-          docker push "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:1338"
+          docker build -t "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:${{ github.sha}}" ./
+          docker push "europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/as-acme-cmdb-registry/acme:${{ github.sha}}"
 
       # END - Docker auth and build
 
@@ -111,7 +111,7 @@ jobs:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
-          image: europe-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:1338
+          image: europe-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha}}
 
 
       # If required, use the Cloud Run url output in later steps
