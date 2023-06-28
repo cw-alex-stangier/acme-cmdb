@@ -51,7 +51,7 @@ on:
 env:
   PROJECT_ID: 'cw-academy-sandbox-alex' # TODO: update Google Cloud project id
   GAR_LOCATION: 'europe-west1' # TODO: update Artifact Registry location
-  SERVICE: 'locatins/europe-west1/namespaces/cw-academy-sandbox-alex/services/as-acme-cmdb-run' # TODO: update Cloud Run service name
+  SERVICE: 'locations/europe-west1/namespaces/cw-academy-sandbox-alex/services/as-acme-cmdb-run' # TODO: update Cloud Run service name
   REGION: 'europe-west1' # TODO: update Cloud Run service region
 
 jobs:
