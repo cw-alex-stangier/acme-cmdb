@@ -34,4 +34,4 @@ ENV GIN_MODE release
 EXPOSE 8080
 
 # Run the Go Gin binary.
-ENTRYPOINT ["./main"] #TODO
+ENTRYPOINT ["./main"]
