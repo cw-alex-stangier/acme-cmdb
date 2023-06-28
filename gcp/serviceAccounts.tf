@@ -9,7 +9,7 @@ resource "google_service_account" "service_account_cicd" {
 resource "google_service_account_iam_binding" "cicd" { 
   service_account_id = google_service_account.service_account_cicd.name
 
-  for_each   = toset(["roles/run.admin", "roles/iam.serviceAccountUser", "roles/artifactregistry.admin"])
+  for_each   = toset(["roles/iam.serviceAccountUser"])
   role       = each.key
 
   members = [
@@ -28,7 +28,7 @@ resource "google_service_account" "service_account_cmdb" {
 resource "google_service_account_iam_binding" "compute_admin" { 
   service_account_id = google_service_account.service_account_cmdb.name
 
-  for_each   = toset(["roles/compute.admin", "roles/iam.serviceAccountUser"])
+  for_each   = toset(["roles/iam.serviceAccountUser"])
   role       = each.key
 
   members = [
