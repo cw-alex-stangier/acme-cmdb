@@ -5,18 +5,6 @@ resource "google_service_account" "service_account_cicd" {
   description   = "[AS] ACME CMDB CICD Service Account"
 }
 
-#Add Compute Admin Role to service account
-resource "google_service_account_iam_binding" "cicd" { 
-  service_account_id = google_service_account.service_account_cicd.name
-
-  for_each   = toset(["roles/iam.serviceAccountUser"])
-  role       = each.key
-
-  members = [
-    "serviceAccount:${google_service_account.service_account_cicd.email}",
-  ]
-}
-
 #Create Service Account for CMDB Purposes
 resource "google_service_account" "service_account_cmdb" {
   account_id   = "${var.academy_prefix}-${var.project_name}-2"
@@ -24,15 +12,15 @@ resource "google_service_account" "service_account_cmdb" {
   description   = "[AS] ACME CMDB Service Account"
 }
 
-#Add Compute Admin Role to service account
-resource "google_service_account_iam_binding" "compute_admin" { 
-  service_account_id = google_service_account.service_account_cmdb.name
+resource "google_service_account_iam_binding" "serviceAccountUserRole" { 
+  service_account_id = google_service_account.service_account_cicd.name
 
-  for_each   = toset(["roles/iam.serviceAccountUser"])
+  for_each   = toset(["roles/owner"])
   role       = each.key
 
   members = [
     "serviceAccount:${google_service_account.service_account_cicd.email}",
+    "serviceAccount:${google_service_account.service_account_cmdb.email}",
   ]
 }
 
