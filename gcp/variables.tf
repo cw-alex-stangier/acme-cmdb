@@ -32,3 +32,8 @@ variable "gh_owner" {
 variable "gh_repo" {
     type = string
 }
+
+variable "runservices" {
+  tpye = bool
+  default = false
+}

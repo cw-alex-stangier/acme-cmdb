@@ -28,6 +28,8 @@ resource "random_string" "random" {
 
 #Enable Services
 resource "google_project_service" "enabled_service" {
+  count = var.runservices ? 1 : 0
+
   for_each = toset(local.services)
   project  = var.project
   service  = each.key
