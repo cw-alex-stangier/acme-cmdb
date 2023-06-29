@@ -8,6 +8,10 @@ resource "google_cloud_run_service" "service" {
         image = "us-docker.pkg.dev/cloudrun/container/hello"
       }
     }
+    vpc_access{
+      connector = module.vpc_access.connector.id
+      egress = "ALL_TRAFFIC"
+    }
   }
 }
 
@@ -26,3 +30,4 @@ resource "google_cloud_run_service_iam_policy" "policy" {
   service     = google_cloud_run_service.service.name
   policy_data = data.google_iam_policy.admin.policy_data
 }
+

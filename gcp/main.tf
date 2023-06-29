@@ -11,7 +11,8 @@ locals {
   project = var.project_name
   services = [
     "run.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "vpcaccess.googleapis.com"
   ]
 }
 
