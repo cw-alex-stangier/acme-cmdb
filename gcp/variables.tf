@@ -34,6 +34,6 @@ variable "gh_repo" {
 }
 
 variable "runservices" {
-  tpye = bool
+  type = bool
   default = false
 }
