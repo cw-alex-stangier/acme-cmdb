@@ -24,3 +24,6 @@ cmdb
 
 #ignore tf state
 *.tfstate
+
+#ignore json key files
+*.json
