@@ -38,7 +38,7 @@ resource "google_service_account_iam_binding" "serviceAccountCICDRole" {
 }
 
 #Assign CMDB specific roles
-resource "google_service_account_iam_binding" "serviceAccountCICDRole" { 
+resource "google_service_account_iam_binding" "serviceAccountCMDBRole" { 
   service_account_id = google_service_account.service_account_cicd.name
 
   for_each   = toset(["roles/compute.instanceAdmin.v1"])
