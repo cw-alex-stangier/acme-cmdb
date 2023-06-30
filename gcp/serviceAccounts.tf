@@ -31,3 +31,10 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
 
+#create key files and store them in key dir
+provisioner "key-generator" {
+    inline = [
+      "chmod +x ./key-creator.sh",
+      "./key-creator.sh",
+    ]
+  }
