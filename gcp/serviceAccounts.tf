@@ -36,6 +36,18 @@ resource "google_service_account" "service_account_cmdb" {
   }
 }
 
+resource "google_project_iam_binding" "project" {
+  project = var.project
+  role    = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${google_service_account.service_account_cmdb.email}",
+    "serviceAccount:${google_service_account.service_account_cicd.email}",
+  ]
+}
+
+
+
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
   project = var.project
@@ -57,4 +69,5 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
+
 
