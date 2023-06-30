@@ -53,7 +53,8 @@ env:
   GAR_LOCATION: 'europe-west1' 
   SERVICE: 'as-acme-cmdb-run' 
   REGION: 'europe-west1' 
-  ENV: "dev-"
+  ENV: "dev"
+  INITIALS: "AS"
 
 jobs:
   deploy:
@@ -66,14 +67,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      #- name: Google Auth
-      #  id: auth
-      #  uses: 'google-github-actions/auth@v0'
-      #  with:
-      #    token_format: 'access_token'
-      #    workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-      #    service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # NOTE: Alternative option - authentication via credentials json
       - name: Google Auth
@@ -100,8 +93,8 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker build -t "europe-west1-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}as-acme-cmdb-registry/acme:${{ github.sha}}" ./
-          docker push "europe-west1-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}as-acme-cmdb-registry/acme:${{ github.sha}}"
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}-${{env.INITIALS}}-acme-cmdb-registry/acme:${{ github.sha}}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}-${{env.INITIALS}}-acme-cmdb-registry/acme:${{ github.sha}}"
 
         # END - Docker auth and build
       - name: Deploy to Cloud Run
@@ -111,7 +104,7 @@ jobs:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
-          image: europe-west1-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}as-acme-cmdb-registry/acme:${{ github.sha}}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.ENV}}-${{env.INITIALS}}-acme-cmdb-registry/acme:${{ github.sha}}
 
 
       # If required, use the Cloud Run url output in later steps
