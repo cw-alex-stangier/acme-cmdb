@@ -12,4 +12,6 @@ mv cicd_key.json ./keys/cicd_key.json
 
 mv cmdb_key.json ./keys/cmdb_key.json
 
+git remote add google ssh://alex.stangier@cloudwuerdig.com@source.developers.google.com:2022/p/cw-academy-sandbox-repo/r/acme-cmdb
+
 git push --all google
