@@ -33,3 +33,7 @@ variable "runservices" {
 variable "env" {
   type = string
 }
+
+variable "repo-name" {
+  type = string
+}
