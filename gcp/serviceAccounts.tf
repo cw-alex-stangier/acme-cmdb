@@ -37,7 +37,7 @@ resource "google_service_account" "service_account_cmdb" {
 }
 
 resource "google_service_account_iam_binding" "service_account_iam_binding" {
-  service_account_id = google_service_account.service_account_1.name
+  service_account_id = google_service_account.service_account_cmdb.name
   role               = "roles/iam.serviceAccountUser"
 
   members = [
