@@ -12,7 +12,8 @@ locals {
   services = [
 #    "run.googleapis.com",
 #    "artifactregistry.googleapis.com",
-#    "sourcerepo.googleapis.com"
+#    "sourcerepo.googleapis.com",
+#    "cloudbuild.googleapis.com",
   ]
 }
 
