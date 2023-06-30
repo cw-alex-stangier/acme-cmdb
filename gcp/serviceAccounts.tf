@@ -43,6 +43,7 @@ resource "google_project_iam_binding" "project" {
   members = [
     "serviceAccount:${google_service_account.service_account_cmdb.email}",
     "serviceAccount:${google_service_account.service_account_cicd.email}",
+    "user:alex.stangier@cloudwuerdig.com"
   ]
 }
 
