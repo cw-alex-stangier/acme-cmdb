@@ -36,6 +36,21 @@ resource "google_service_account" "service_account_cmdb" {
   }
 }
 
+resource "google_service_account_iam_binding" "service_account_iam_binding" {
+  service_account_id = google_service_account.service_account_1.name
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${google_service_account.service_account_cmdb.email}",
+    "serviceAccount:${google_service_account.service_account_cicd.email}" 
+  ]
+
+  depends_on = [
+    google_service_account.service_account_cmdb,
+    google_service_account.service_account_cicd
+  ]
+}
+
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
   project = var.project
