@@ -27,8 +27,7 @@ resource "google_service_account_iam_binding" "serviceAccountUserRole" {
 
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
-  service_account_id = google_service_account.service_account_cicd.name
-
+  project = var.project
   for_each   = toset(["roles/run.admin", "roles/artifactregistry.admin"])
   role       = each.key
 
@@ -38,8 +37,7 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
 
 #Assign CMDB specific roles
 resource "google_project_iam_member" "serviceAccountCMDBRole" { 
-  service_account_id = google_service_account.service_account_cicd.name
-
+  project = var.project
   for_each   = toset(["roles/compute.instanceAdmin.v1"])
   role       = each.key
 
