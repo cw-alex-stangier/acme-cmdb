@@ -1,24 +1,38 @@
 #Create Service Account for CICD Purposes
 resource "google_service_account" "service_account_cicd" {
-  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-1"
+  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-cicd"
   display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cicd"
-  description   = "${var.env} [AS] ACME CMDB CICD Service Account"
+  description   = "${var.env} AS ACME CMDB CICD Service Account"
   project = var.project
 
-    provisioner "local-exec" {
+  #create key
+  provisioner "local-exec" {
     command = "gcloud iam service-accounts keys create cicd_key.json --iam-account=${self.email}"
+  }
+
+  #delete key on destroy
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm cicd_key.json"
   }
 }
 
 #Create Service Account for CMDB Purposes
 resource "google_service_account" "service_account_cmdb" {
-  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-2"
+  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-cmdb"
   display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cmdb"
-  description   = "${var.env} [AS] ACME CMDB Service Account"
+  description   = "${var.env} AS ACME CMDB Service Account"
   project = var.project
 
-    provisioner "local-exec" {
+  #create key
+  provisioner "local-exec" {
     command = "gcloud iam service-accounts keys create cmdb_key.json --iam-account=${self.email}"
+  }
+
+    #delete key on destroy
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm cmdb_key.json"
   }
 }
 
