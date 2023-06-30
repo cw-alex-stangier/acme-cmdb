@@ -26,7 +26,7 @@ resource "google_service_account_iam_binding" "serviceAccountUserRole" {
 }
 
 #Assign CICD specific roles
-resource "google_service_account_iam_member" "serviceAccountCICDRole" { 
+resource "google_service_account_iam_binding" "serviceAccountCICDRole" { 
   service_account_id = google_service_account.service_account_cicd.name
 
   for_each   = toset(["roles/run.admin", "roles/artifactregistry.admin"])
