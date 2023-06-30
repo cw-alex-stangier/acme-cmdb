@@ -52,3 +52,13 @@ resource "google_service_account_key" "cicd-key" {
 resource "google_service_account_key" "cmdb-key" {
   service_account_id = google_service_account.service_account_cmdb.name
 }
+
+resource "local_file" "cicd-key-file" {
+  content     = base64decode(google_service_account_key.cicd-key.private_key)
+  filename = "${google_service_account_key.cicd-key.name}.json"
+}
+
+resource "local_file" "cmdb-key-file" {
+  content     = base64decode(google_service_account_key.cmdb-key.private_key)
+  filename = "${google_service_account_key.cmdb-key.name}.json"
+}
