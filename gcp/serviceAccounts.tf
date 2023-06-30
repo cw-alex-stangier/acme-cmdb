@@ -13,17 +13,17 @@ resource "google_service_account" "service_account_cmdb" {
 }
 
 #Assign basic role
-resource "google_service_account_iam_binding" "serviceAccountUserRole" { 
-  service_account_id = google_service_account.service_account_cicd.name
+#resource "google_service_account_iam_binding" "serviceAccountUserRole" { 
+#  service_account_id = google_service_account.service_account_cicd.name
 
-  for_each   = toset(["roles/owner"])
-  role       = each.key
+#  for_each   = toset(["roles/owner"])
+#  role       = each.key
 
-  members = [
-    "serviceAccount:${google_service_account.service_account_cicd.email}",
-    "serviceAccount:${google_service_account.service_account_cmdb.email}",
-  ]
-}
+#  members = [
+#    "serviceAccount:${google_service_account.service_account_cicd.email}",
+#    "serviceAccount:${google_service_account.service_account_cmdb.email}",
+#  ]
+#}
 
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
