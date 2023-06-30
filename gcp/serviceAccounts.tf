@@ -20,7 +20,7 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
 
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
 
-  provisioner "key-generator" {
+  provisioner "local-exec" {
     inline = [
       "gcloud iam service-accounts keys create cicd_key.json --iam-account=${google_service_account.service_account_cicd.email}"
     ]
@@ -35,7 +35,7 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 
-  provisioner "key-generator" {
+  provisioner "local-exec" {
     inline = [
       "gcloud iam service-accounts keys create cmdb_key.json --iam-account=${google_service_account.service_account_cmdb.email}"
     ]
