@@ -52,7 +52,7 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
 #Assign CMDB specific roles
 resource "google_project_iam_member" "serviceAccountCMDBRole" { 
   project = var.project
-  for_each   = toset(["roles/compute.instanceAdmin.v1"])
+  for_each   = toset(["roles/compute.admin"])
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
