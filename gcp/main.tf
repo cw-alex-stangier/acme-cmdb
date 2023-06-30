@@ -12,7 +12,6 @@ locals {
   services = [
 #    "run.googleapis.com",
 #    "artifactregistry.googleapis.com",
-#    "vpcaccess.googleapis.com"
   ]
 }
 
