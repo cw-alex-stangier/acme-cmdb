@@ -36,19 +36,6 @@ resource "google_service_account" "service_account_cmdb" {
   }
 }
 
-resource "google_project_iam_binding" "project" {
-  project = var.project
-  role    = "roles/owner"
-
-  members = [
-    "serviceAccount:${google_service_account.service_account_cmdb.email}",
-    "serviceAccount:${google_service_account.service_account_cicd.email}",
-    "user:alex.stangier@cloudwuerdig.com"
-  ]
-}
-
-
-
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
   project = var.project
@@ -72,3 +59,4 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
 }
 
 
+# whatever the fuck you do push pull the repo and run terraform destroy
