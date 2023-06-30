@@ -15,6 +15,6 @@ resource "google_sourcerepo_repository" "repo" {
   #remove remote repo
   provisioner "local-exec" {
     when    = destroy
-    command = "git remote remove ${self.repo.name}"
+    command = "git remote remove ${self.name}"
   }
 }

@@ -3,7 +3,7 @@ module "cloudbuild_github" {
   version = "1.1.0"
 
   name = "${var.env}-${var.academy_prefix}-${var.project_name}-trigger"
-  project_id = var.project_id
+  project_id  = var.project
   source_repo = "cw-alex-stangier/acme-cmdb"
 
   trigger_config = {
