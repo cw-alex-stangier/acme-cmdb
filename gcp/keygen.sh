@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-project = `terraform output urls-project`
+project = `terraform output project`
 cicdemail = `terraform output service-account-cicd`
+cmdbemail = `terraform output service-account-cmdb`
 
 echo $project
 echo $cicdemail
@@ -10,9 +11,9 @@ gcloud config set $project
 
 gcloud init
 
-gcloud iam service-accounts keys create cicd_key.json --iam-account=as-acme-cmdb-1@cw-academy-sandbox-alex.iam.gserviceaccount.com
+gcloud iam service-accounts keys create cicd_key.json --iam-account=$cicdemail
 
-gcloud iam service-accounts keys create cmdb_key.json --iam-account=as-acme-cmdb-2@cw-academy-sandbox-alex.iam.gserviceaccount.com
+gcloud iam service-accounts keys create cmdb_key.json --iam-account=$cmdbemail
 
 [ ! -d "/keys/" ] && mkdir keys
 
