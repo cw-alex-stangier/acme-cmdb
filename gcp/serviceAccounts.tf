@@ -38,7 +38,7 @@ resource "google_service_account" "service_account_cmdb" {
 
 resource "google_project_iam_binding" "project" {
   project = var.project
-  role    = "roles/iam.serviceAccountUser"
+  role    = "roles/owner"
 
   members = [
     "serviceAccount:${google_service_account.service_account_cmdb.email}",
