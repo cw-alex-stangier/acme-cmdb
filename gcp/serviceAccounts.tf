@@ -41,7 +41,7 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
   for_each   = toset(["roles/compute.instanceAdmin.v1"])
   role       = each.key
 
-  member = "serviceAccount:${google_service_account.service_account_cicd.email}"
+  member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
 
 #Create Keys 
