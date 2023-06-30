@@ -3,4 +3,6 @@ resource "google_artifact_registry_repository" "registry" {
   repository_id = "${var.env}-${var.academy_prefix}-${var.project_name}-registry"
   description   = "Docker container Repository for ${var.academy_prefix}-${var.project_name}"
   format        = "DOCKER"
+  project = var.project
+
 }

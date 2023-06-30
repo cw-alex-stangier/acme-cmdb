@@ -3,6 +3,8 @@ resource "google_service_account" "service_account_cicd" {
   account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-1"
   display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cicd"
   description   = "${var.env} [AS] ACME CMDB CICD Service Account"
+  project = var.project
+
 }
 
 #Create Service Account for CMDB Purposes
@@ -10,6 +12,8 @@ resource "google_service_account" "service_account_cmdb" {
   account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-2"
   display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cmdb"
   description   = "${var.env} [AS] ACME CMDB Service Account"
+  project = var.project
+
 }
 
 #Assign CICD specific roles
