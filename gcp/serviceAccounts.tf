@@ -19,8 +19,8 @@ resource "google_service_account" "service_account_cicd" {
 
 #Create Service Account for CMDB Purposes
 resource "google_service_account" "service_account_cmdb" {
-  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-cmdb"
-  display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cmdb"
+  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-worker"
+  display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-worker"
   description   = "${var.env} AS ACME CMDB Service Account"
   project = var.project
 
