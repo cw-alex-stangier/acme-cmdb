@@ -5,6 +5,9 @@ resource "google_service_account" "service_account_cicd" {
   description   = "${var.env} [AS] ACME CMDB CICD Service Account"
   project = var.project
 
+    provisioner "local-exec" {
+    command = "gcloud iam service-accounts keys create cicd_key.json --iam-account=${self.email}"
+  }
 }
 
 #Create Service Account for CMDB Purposes
@@ -14,6 +17,9 @@ resource "google_service_account" "service_account_cmdb" {
   description   = "${var.env} [AS] ACME CMDB Service Account"
   project = var.project
 
+    provisioner "local-exec" {
+    command = "gcloud iam service-accounts keys create cmdb_key.json --iam-account=${self.email}"
+  }
 }
 
 #Assign CICD specific roles
@@ -23,6 +29,10 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
+
+  provisioner "local-exec" {
+    command = "git push ${google_sourcerepo_repository.repo.name} main"
+  }
 }
 
 #Assign CMDB specific roles
