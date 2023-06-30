@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gcloud auth login
+gcloud init
 
 gcloud iam service-accounts keys create cicd_key.json --iam-account=as-acme-cmdb-1@cw-academy-sandbox-alex.iam.gserviceaccount.com
 
