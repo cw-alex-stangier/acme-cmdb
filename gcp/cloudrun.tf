@@ -1,16 +1,15 @@
-resource "google_cloud_run_v2_service" "service" {
+resource "google_cloud_run_service" "service" {
   name     = "${var.academy_prefix}-${var.project_name}-run"
   location = var.target_region
 
-  template {
-    containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
-    }
-    vpc_access{
-      connector = module.vpc_access.connector.id
-      egress = "ALL_TRAFFIC"
+template {
+    spec {
+      containers {
+        image = "us-docker.pkg.dev/cloudrun/container/hello"
+      }
     }
   }
+  
 }
 
 data "google_iam_policy" "admin" {
