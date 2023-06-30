@@ -1,0 +1,15 @@
+name: Build and Deploy to Cloud Run
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: build_image
+    args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/dev-as-acme-cmdb-registry/dev-acme-cmdb:$SHORT_SHA', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: push_image
+    args: ['push', 'europe-west1-docker.pkg.dev/cw-academy-sandbox-alex/dev-as-acme-cmdb-registry/dev-acme-cmdb:$SHORT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: Deploy to Cloud Run
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'dev-as-acme-cmdb-run', '--image', 'europe-west1-docker.pkg.dev/$PROJECT_ID/dev-as-acme-cmdb-registry/dev-acme-cmdb:$SHORT_SHA', '--region', 'europe-west1']
