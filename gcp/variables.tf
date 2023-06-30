@@ -37,3 +37,7 @@ variable "runservices" {
   type = bool
   default = false
 }
+
+variable "env" {
+  type = string
+}
