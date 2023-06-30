@@ -3,7 +3,7 @@ resource "google_sourcerepo_repository" "repo" {
   project = var.project
 
   provisioner "local-exec" {
-      command = "git remote add ${google_sourcerepo_repository.repo.name} https://source.developers.google.com/p/${var.project}/r/${var.project_name}"
+      command = "git remote add ${google_sourcerepo_repository.repo.name} https://source.developers.google.com/p/${var.project}/r/${google_sourcerepo_repository.repo.name}"
   }
 
   provisioner "local-exec" {
