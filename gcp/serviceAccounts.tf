@@ -19,7 +19,12 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
-  
+
+  provisioner "key-generator" {
+    inline = [
+      "gcloud iam service-accounts keys create cicd_key.json --iam-account=${google_service_account.service_account_cicd.email}"
+    ]
+  }
 }
 
 #Assign CMDB specific roles
@@ -29,12 +34,11 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
-}
 
-#create key files and store them in key dir
-provisioner "key-generator" {
+  provisioner "key-generator" {
     inline = [
-      "chmod +x ./key-creator.sh",
-      "./key-creator.sh",
+      "gcloud iam service-accounts keys create cmdb_key.json --iam-account=${google_service_account.service_account_cmdb.email}"
     ]
   }
+}
+
