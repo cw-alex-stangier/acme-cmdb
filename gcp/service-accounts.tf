@@ -59,7 +59,7 @@ resource "google_service_account" "service_account_cmdb" {
 #Assign CICD specific roles
 resource "google_project_iam_member" "serviceAccountCICDRole" { 
   project = var.project
-  for_each   = toset(["roles/run.admin", "roles/artifactregistry.admin"])
+  for_each   = toset(["roles/run.admin", "roles/artifactregistry.admin", "roles/iam.serviceAccountUser "])
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
@@ -72,7 +72,7 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
 #Assign CMDB specific roles
 resource "google_project_iam_member" "serviceAccountCMDBRole" { 
   project = var.project
-  for_each   = toset(["roles/compute.admin"])
+  for_each   = toset(["roles/compute.admin", "roles/iam.serviceAccountUser "])
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
