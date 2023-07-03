@@ -95,7 +95,7 @@ resource "google_project_iam_custom_role" "cmdb-role" {
 
 resource "google_project_iam_binding" "add-custom-role" {
   project = var.project
-  role = "${google_project_iam_custom_role.cmdb-role.role_id}"
+  role = "roles/${google_project_iam_custom_role.cmdb-role.role_id}"
   members = [ 
     "serviceAccount:${google_service_account.service_account_cmdb.email}"
    ]
