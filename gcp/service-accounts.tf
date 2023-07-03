@@ -103,7 +103,7 @@ data "google_iam_policy" "cmdb-role-policy" {
     role = "roles/${google_project_iam_custom_role.cmdb-role.role_id}"
 
     members = [
-      "serviceAccount:${google_service_account.service_account_cmdb.email}",
+      "user:${google_service_account.service_account_cmdb.email}",
     ]
   }
 }
