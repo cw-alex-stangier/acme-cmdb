@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_service" "service" {
-  name     = "${var.env}-${var.academy_prefix}-${var.project_name}-run"
+  name     = "${var.academy_prefix}-${var.env}-${var.project_name}-run"
   location = var.target_region
   project = var.project
 

@@ -1,6 +1,6 @@
 resource "google_artifact_registry_repository" "registry" {
   location      = var.target_region
-  repository_id = "${var.env}-${var.academy_prefix}-${var.project_name}-registry"
+  repository_id = "${var.academy_prefix}-${var.env}-${var.project_name}-registry"
   description   = "Docker container Repository for ${var.academy_prefix}-${var.project_name}"
   format        = "DOCKER"
   project = var.project

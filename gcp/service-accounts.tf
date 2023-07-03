@@ -1,7 +1,7 @@
 #Create Service Account for CICD Purposes
 resource "google_service_account" "service_account_cicd" {
-  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-cicd"
-  display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-cicd"
+  account_id   = "${var.academy_prefix}-${var.env}-${var.project_name}-cicd"
+  display_name = "${var.academy_prefix}-${var.env}-${var.project_name}-cicd"
   description   = "${var.env} AS ACME CMDB CICD Service Account"
   project = var.project
 
@@ -29,8 +29,8 @@ resource "google_service_account" "service_account_cicd" {
 
 #Create Service Account for CMDB Purposes
 resource "google_service_account" "service_account_cmdb" {
-  account_id   = "${var.env}-${var.academy_prefix}-${var.project_name}-worker"
-  display_name = "${var.env}-${var.academy_prefix}-${var.project_name}-worker"
+  account_id   = "${var.academy_prefix}-${var.env}-${var.project_name}-worker"
+  display_name = "${var.academy_prefix}-${var.env}-${var.project_name}-worker"
   description   = "${var.env} AS ACME CMDB Service Account"
   project = var.project
 
