@@ -10,10 +10,21 @@ resource "google_service_account" "service_account_cicd" {
     command = "gcloud iam service-accounts keys create cicd_key.json --iam-account=${self.email}"
   }
 
+  #add key to secret manager
+  provisioner "local-exec" {
+    command = "gcloud secrets create cmdb-cicd-service-account-${random_string.random.result} --data-file=cicd_key.json"
+  }
+
   #delete key on destroy
   provisioner "local-exec" {
     when    = destroy
     command = "rm cicd_key.json"
+  }
+
+  #delete key on destroy
+  provisioner "local-exec" {
+    when    = destroy
+    command = "gcloud secrets delete cmdb-cicd-service-account-${random_string.random.result}"
   }
 }
 
@@ -29,10 +40,21 @@ resource "google_service_account" "service_account_cmdb" {
     command = "gcloud iam service-accounts keys create cmdb_key.json --iam-account=${self.email}"
   }
 
+  #add key to secret manager
+  provisioner "local-exec" {
+    command = "gcloud secrets create cmdb-worker-service-account-${random_string.random.result} --data-file=cmdb_key.json"
+  }
+
     #delete key on destroy
   provisioner "local-exec" {
     when    = destroy
     command = "rm cmdb_key.json"
+  }
+
+  #delete key on destroy
+  provisioner "local-exec" {
+    when    = destroy
+    command = "gcloud secrets delete cmdb-cicd-service-account-${random_string.random.result}"
   }
 }
 
@@ -58,5 +80,3 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
 
-
-# whatever the fuck you do push pull the repo and run terraform destroy
