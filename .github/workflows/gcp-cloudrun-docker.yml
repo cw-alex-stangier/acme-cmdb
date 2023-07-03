@@ -51,7 +51,7 @@ on:
 env:
   PROJECT_ID: 'cw-academy-sandbox-alex' 
   GAR_LOCATION: 'europe-west1' 
-  SERVICE: 'as-acme-cmdb-run' 
+  SERVICE: 'as-dev-acme-cmdb-run' 
   REGION: 'europe-west1' 
   ENV: "dev"
   INITIALS: "as"
