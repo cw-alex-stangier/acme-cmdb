@@ -3,15 +3,16 @@ resource "google_cloud_run_service" "service" {
   location = var.target_region
   project = var.project
 
-template {
+  template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/container/hello"
+        #image = "us-docker.pkg.dev/cloudrun/container/hello"
+        image = "${var.region}-docker.pkg.dev/${var.project}/${var.ENV}-${var.academy-prefix}-acme-cmdb-registry/acme"
       }
     }
   }
-  
 }
+
 
 data "google_iam_policy" "admin" {
   binding {
