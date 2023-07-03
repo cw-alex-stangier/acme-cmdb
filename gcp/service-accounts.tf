@@ -72,9 +72,15 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
 #Assign CMDB specific roles
 resource "google_project_iam_member" "serviceAccountCMDBRole" { 
   project = var.project
-  for_each   = toset(["roles/compute.admin", "roles/iam.serviceAccountUser"])
+  for_each   = toset(["roles/iam.serviceAccountUser", google_project_iam_custom_role.cmdb-role.role_id])
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
 
+resource "google_project_iam_custom_role" "cmdb-role" {
+  role_id     = "${var.academy_prefix}-${var.env}-${var.project_name}-worker-role"
+  title       = "Custom Role used by acme cmdb worker"
+  description = "Role enables compute instance listing and starting and stopping instance."
+  permissions = ["iam.roles.compute.instances.list", "iam.roles.compute.instances.start", "iam.roles.compute.instances.stop"]
+}
