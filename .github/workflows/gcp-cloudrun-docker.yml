@@ -102,7 +102,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
-          service: ${{env.ENV}}-${{ env.SERVICE }}
+          service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.INITIALS}}-${{env.ENV}}-${{env.ARTIFACT}}-registry/${{env.ARTIFACT}}:${{ github.sha}}
