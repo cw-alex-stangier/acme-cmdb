@@ -82,5 +82,5 @@ resource "google_project_iam_custom_role" "cmdb-role" {
   role_id     = "role"
   title       = "Custom Role used by acme cmdb worker"
   description = "Role enables compute instance listing and starting and stopping instance."
-  permissions = ["iam.roles.compute.instances.list", "iam.roles.compute.instances.start", "iam.roles.compute.instances.stop"]
+  permissions = ["compute.instances.list", "compute.instances.start", "compute.instances.stop"]
 }
