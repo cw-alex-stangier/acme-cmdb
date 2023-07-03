@@ -65,14 +65,12 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
 }
 
-#Assign CMDB specific roles
-#resource "google_project_iam_member" "serviceAccountCMDBRole" { 
-#  project = var.project
-#  for_each   = toset(["roles/iam.serviceAccountUser", "roles/${google_project_iam_custom_role.cmdb-role.role_id}"])
-#  role       = each.key
+resource "google_project_iam_member" "serviceAccountCICDRole" { 
+  project = var.project
+  role       = "roles/compute.instanceAdmin"
 
-#  member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
-#}
+  member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
+}
 
 resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
   project =  var.project
@@ -90,20 +88,4 @@ resource "google_project_iam_custom_role" "cmdb-role" {
   title       = "Custom Role used by acme cmdb worker"
   description = "Role enables compute instance listing, starting and stopping instances."
   permissions = ["compute.instances.list", "compute.instances.start", "compute.instances.stop"]
-}
-
-
-resource "google_project_iam_policy" "project" {
-  project     = var.project
-  policy_data = data.google_iam_policy.cmdb-role-policy.policy_data
-}
-
-data "google_iam_policy" "cmdb-role-policy" {
-  binding {
-    role = "roles/${google_project_iam_custom_role.cmdb-role.role_id}"
-
-    members = [
-      "user:${google_service_account.service_account_cmdb.email}",
-    ]
-  }
 }
