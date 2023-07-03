@@ -24,7 +24,7 @@ data "google_iam_policy" "admin" {
 resource "google_cloud_run_service_iam_policy" "policy" {
   location    = var.target_region
   project     = var.project
-  service     = google_cloud_run_service.service.name
+  service     = google_cloud_run_v2_service.service.name
   policy_data = data.google_iam_policy.admin.policy_data
 }
 
