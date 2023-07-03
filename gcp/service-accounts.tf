@@ -65,7 +65,7 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
 }
 
-resource "google_project_iam_member" "serviceAccountCICDRole" { 
+resource "google_project_iam_member" "serviceAccountCMDBRole" { 
   project = var.project
   role       = "roles/compute.instanceAdmin"
 
