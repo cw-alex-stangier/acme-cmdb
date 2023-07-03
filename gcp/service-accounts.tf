@@ -5,8 +5,6 @@ resource "google_service_account" "service_account_cicd" {
   description   = "${var.env} AS ACME CMDB CICD Service Account"
   project = var.project
 
-  roles
-
   #create key
   provisioner "local-exec" {
     command = "gcloud iam service-accounts keys create cicd_key.json --iam-account=${self.email}"
