@@ -63,19 +63,33 @@ resource "google_project_iam_member" "serviceAccountCICDRole" {
   role       = each.key
 
   member = "serviceAccount:${google_service_account.service_account_cicd.email}"
-
-  provisioner "local-exec" {
-    command = "git push ${google_sourcerepo_repository.repo.name} main"
-  }
 }
 
 #Assign CMDB specific roles
-resource "google_project_iam_member" "serviceAccountCMDBRole" { 
-  project = var.project
-  for_each   = toset(["roles/iam.serviceAccountUser", "roles/${google_project_iam_custom_role.cmdb-role.role_id}"])
-  role       = each.key
+#resource "google_project_iam_member" "serviceAccountCMDBRole" { 
+#  project = var.project
+#  for_each   = toset(["roles/iam.serviceAccountUser", "roles/${google_project_iam_custom_role.cmdb-role.role_id}"])
+#  role       = each.key
 
-  member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
+#  member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
+#}
+
+resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
+  project =  var.project
+  role = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${google_service_account.service_account_cmdb.email}",
+    "serviceAccount:${google_service_account.service_account_cicd.email}"
+  ]
+}
+
+resource "google_project_iam_binding" "add-custom-role" {
+  project = var.project
+  role = "roles/${google_project_iam_custom_role.cmdb_role.role_id}"
+  members = [ 
+    "serviceAccount:${google_service_account.service_account_cmdb.email}"
+   ]
 }
 
 resource "google_project_iam_custom_role" "cmdb-role" {
