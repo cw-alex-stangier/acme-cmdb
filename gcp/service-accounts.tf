@@ -21,10 +21,10 @@ resource "google_service_account" "service_account_cicd" {
   }
 
   #delete key on destroy
-  provisioner "local-exec" {
-    when    = destroy
-    command = "gcloud secrets delete cmdb-cicd-service-account --quiet"
-  }
+  #provisioner "local-exec" {
+  #  when    = destroy
+  #  command = "gcloud secrets delete cmdb-cicd-service-account --quiet"
+  #}
 }
 
 #Create Service Account for CMDB Purposes
@@ -50,10 +50,10 @@ resource "google_service_account" "service_account_cmdb" {
   }
 
   #delete key on destroy
-  provisioner "local-exec" {
-    when    = destroy
-    command = "gcloud secrets delete cmdb-cicd-service-account --quiet"
-  }
+#  provisioner "local-exec" {
+#    when    = destroy
+#    command = "gcloud secrets delete cmdb-cicd-service-account --quiet"
+#  }
 }
 
 #Assign CICD specific roles
