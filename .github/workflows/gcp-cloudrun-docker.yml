@@ -46,14 +46,14 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main"]
 
 env:
-  PROJECT_ID: 'cw-academy-sandbox-alex' 
+  PROJECT_ID: 'cw-academy-g3-quest' 
   GAR_LOCATION: 'europe-west1' 
-  SERVICE: 'as-dev-acme-cmdb-run' 
+  SERVICE: 'as-prod-acme-cmdb-run' 
   REGION: 'europe-west1' 
-  ENV: "dev"
+  ENV: "prod"
   INITIALS: "as"
   ARTIFACT: "acme-cmdb"
 
