@@ -25,10 +25,15 @@ variable "project" {
   description = "Project Id."
 }
 
-variable "gh_owner" {
-    type = string
+variable "runservices" {
+  type = bool
+  default = false
 }
 
-variable "gh_repo" {
-    type = string
+variable "env" {
+  type = string
+}
+
+variable "repo-name" {
+  type = string
 }

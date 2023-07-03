@@ -27,3 +27,4 @@ cmdb
 
 #ignore json key files
 *.json
+keys
