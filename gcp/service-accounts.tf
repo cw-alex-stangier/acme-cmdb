@@ -12,7 +12,7 @@ resource "google_service_account" "service_account_cicd" {
 
   #add key to secret manager
   provisioner "local-exec" {
-    command = "gcloud secrets create ${var.academy_prefix}-cmdb-cicd-service-account --data-file=cicd_key.json"
+    command = "gcloud secrets create ${self.account_id} --data-file=cicd_key.json"
   }
 
   #delete key on destroy
@@ -23,7 +23,7 @@ resource "google_service_account" "service_account_cicd" {
   #delete key on destroy
   provisioner "local-exec" {
     when    = destroy
-    command = "gcloud secrets delete ${var.academy_prefix}-cmdb-cicd-service-account --quiet"
+    command = "gcloud secrets delete ${self.account_id} --quiet"
   }
 }
 
@@ -41,7 +41,7 @@ resource "google_service_account" "service_account_cmdb" {
 
   #add key to secret manager
   provisioner "local-exec" {
-    command = "gcloud secrets create ${var.academy_prefix}-cmdb-worker-service-account --data-file=cmdb_key.json"
+    command = "gcloud secrets create ${self.account_id} --data-file=cmdb_key.json"
   }
 
     #delete key on destroy
@@ -52,7 +52,7 @@ resource "google_service_account" "service_account_cmdb" {
   #delete key on destroy
   provisioner "local-exec" {
     when    = destroy
-    command = "gcloud secrets delete ${var.academy_prefix}-cmdb-cicd-service-account --quiet"
+    command = "gcloud secrets delete ${self.account_id} --quiet"
   }
 }
 
