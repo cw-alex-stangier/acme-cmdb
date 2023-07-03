@@ -7,7 +7,7 @@ resource "google_cloud_run_service" "service" {
     spec {
       containers {
         #image = "us-docker.pkg.dev/cloudrun/container/hello"
-        image = "${var.region}-docker.pkg.dev/${var.project}/${var.ENV}-as-acme-cmdb-registry/acme"
+        image = "${var.region}-docker.pkg.dev/${var.project}/${var.ENV}-${var.academy_prefix}-acme-cmdb-registry/acme"
       }
     }
   }
