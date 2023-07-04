@@ -61,9 +61,7 @@ func main() {
 	router.Run()
 }
 
-// Tries to authenticate to GCP Console using a supplied service account json key file
-// If authentication is successfull a client Object will be returned, if not
-// a error will be thrown.
+// Tries to authenticate to GCP Console using a supplied seco
 func authToGCP(c *gin.Context) (*compute.InstancesClient, error) {
 
 	//try binding post body message to AuthMessage struct

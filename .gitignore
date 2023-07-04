@@ -28,3 +28,7 @@ cmdb
 #ignore json key files
 *.json
 keys
+
+#ignore tf files
+.terraform
+.terraform.lock.hcl
