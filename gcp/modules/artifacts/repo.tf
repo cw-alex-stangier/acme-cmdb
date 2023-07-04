@@ -79,7 +79,7 @@ resource "google_cloudbuild_trigger" "filename-trigger" {
 
   trigger_template {
     branch_name = "dev"
-    repo_name   = "${google_cloudbuildv2_repository.git-repository.name}"
+    repo_name   = "${google_cloudbuildv2_connection.git-connection.name}"
   }
 
   filename = "cloudbuild.yaml"
