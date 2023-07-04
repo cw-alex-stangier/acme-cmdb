@@ -40,7 +40,7 @@ data "google_iam_policy" "p4sa-secretAccessor" {
   provider = google-beta
   binding {
     role = "roles/secretmanager.secretAccessor"
-    members = ["serviceAccount:service-331094424989@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
+    members = ["serviceAccount:service-78001516062@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
   }
 }
 
@@ -83,5 +83,4 @@ resource "google_cloudbuild_trigger" "github-trigger" {
       branch = "dev"
     }
   }
-    
 } 
