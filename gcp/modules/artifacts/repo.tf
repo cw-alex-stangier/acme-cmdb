@@ -74,6 +74,7 @@ resource "google_cloudbuildv2_repository" "git-repository" {
 # ADD GH TRIGGER
 resource "google_cloudbuild_trigger" "filename-trigger" {
   location = "us-central1"
+  name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
 
   trigger_template {
     branch_name = "dev"
