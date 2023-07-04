@@ -31,7 +31,7 @@ resource "google_secret_manager_secret" "github-token-secret" {
 }
 
 data "local_file" "secret" {
-  filename = "./github-token.txt"
+  filename = "~/github-token.txt"
 }
 
 resource "google_secret_manager_secret_version" "github-token-secret-version" {
