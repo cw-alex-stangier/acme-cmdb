@@ -10,9 +10,10 @@ terraform {
 locals {
   project = var.project_name
   services = [
-#    "run.googleapis.com",
-#    "artifactregistry.googleapis.com",
-#    "sourcerepo.googleapis.com",  
+    "run.googleapis.com",
+    "artifactregistry.googleapis.com",
+    "sourcerepo.googleapis.com", 
+    "cloudresourcemanager.googleapis.com", 
 ]
 }
 
