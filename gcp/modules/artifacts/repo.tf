@@ -68,5 +68,5 @@ resource "google_cloudbuildv2_repository" "my-repository" {
   location = "europe-west1"
   name = "${var.academy_prefix}-${var.env}-${var.project_name}-build-repo"
   parent_connection = google_cloudbuildv2_connection.my-connection.name
-  remote_uri = "https://github.com/cw-alex-stangier/acme-cmdb"
+  remote_uri = "https://github.com/cw-alex-stangier/acme-cmdb.git"
 }
