@@ -32,3 +32,6 @@ keys
 #ignore tf files
 .terraform
 .terraform.lock.hcl
+
+#ignore gh secret
+*.txt
