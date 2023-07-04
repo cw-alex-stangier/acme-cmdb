@@ -81,11 +81,3 @@ resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
     "serviceAccount:${google_service_account.service_account_cicd.email}"
   ]
 }
-
-
-resource "google_project_iam_custom_role" "cmdb-role" {
-  role_id     = "${var.academy_prefix}_cmdb_role"
-  title       = "Custom Role used by acme cmdb worker"
-  description = "Role enables compute instance listing, starting and stopping instances."
-  permissions = ["compute.instances.list", "compute.instances.start", "compute.instances.stop"]
-}
