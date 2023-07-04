@@ -72,3 +72,16 @@ resource "google_cloudbuildv2_repository" "my-repository" {
 }
 
 # ADD GH TRIGGER
+resource "google_cloudbuild_trigger" "github-trigger" {
+  name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
+  filename = "cloudbuild.yaml"
+  location = "europe-west1"
+  github {
+    owner = "cw-alex-stangier"
+    name = "https://github.com/cw-alex-stangier/acme-cmdb"
+    push {
+      branch = "dev"
+    }
+  }
+    
+} 
