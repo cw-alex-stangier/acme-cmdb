@@ -37,3 +37,7 @@ variable "env" {
 variable "repo_name" {
   type = string
 }
+
+variable "project_number" {
+  type = string
+}

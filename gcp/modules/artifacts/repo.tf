@@ -40,7 +40,7 @@ data "google_iam_policy" "p4sa-secretAccessor" {
   provider = google-beta
   binding {
     role = "roles/secretmanager.secretAccessor"
-    members = ["serviceAccount:service-78001516062@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
+    members = ["serviceAccount:service-${var.project_number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
   }
 }
 
@@ -72,15 +72,3 @@ resource "google_cloudbuildv2_repository" "my-repository" {
 }
 
 # ADD GH TRIGGER
-resource "google_cloudbuild_trigger" "github-trigger" {
-  name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
-  filename = "cloudbuild.yaml"
-  location = "europe-west1"
-  github {
-    owner = "cw-alex-stangier"
-    name = "https://github.com/cw-alex-stangier/acme-cmdb"
-    push {
-      branch = "dev"
-    }
-  }
-} 
