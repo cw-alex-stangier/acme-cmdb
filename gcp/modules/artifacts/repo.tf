@@ -75,6 +75,7 @@ resource "google_cloudbuildv2_repository" "git-repository" {
 resource "google_cloudbuild_trigger" "filename-trigger" {
   location = var.target_region
   name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
+  description = "Triggers an build if code has been pushed to dev."
 
   trigger_template {
     branch_name = "dev"
