@@ -56,16 +56,10 @@ resource "google_cloudbuildv2_connection" "my-connection" {
   name = "${var.academy_prefix}-${var.env}-${var.project_name}-GH-connection"
 
   github_config {
-    #app_installation_id = 123123
+    app_installation_id = 123123
     authorizer_credential {
       oauth_token_secret_version = google_secret_manager_secret_version.github-token-secret-version.id
     }
-  }
-
-  lifecycle {
-    ignore_changes = [
-      github_config[0].app_installation_id,
-    ]
   }
 }
 
