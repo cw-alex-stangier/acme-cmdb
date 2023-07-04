@@ -33,7 +33,7 @@ resource "google_secret_manager_secret" "github-token-secret" {
 resource "google_secret_manager_secret_version" "github-token-secret-version" {
   provider = google-beta
   secret = google_secret_manager_secret.github-token-secret.id
-  secret_data = file("${path.module}/modules/artifacts/github-token.txt")
+  secret_data = file("${path.module}/github-token.txt")
 }
 
 data "google_iam_policy" "p4sa-secretAccessor" {
