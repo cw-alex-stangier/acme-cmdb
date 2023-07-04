@@ -14,7 +14,7 @@ locals {
     "artifactregistry.googleapis.com",
     "sourcerepo.googleapis.com", 
     "cloudresourcemanager.googleapis.com", 
-]
+  ]
 }
 
 provider "google" {
