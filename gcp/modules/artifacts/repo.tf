@@ -70,3 +70,21 @@ resource "google_cloudbuildv2_repository" "my-repository" {
   parent_connection = google_cloudbuildv2_connection.my-connection.name
   remote_uri = "https://github.com/cw-alex-stangier/acme-cmdb.git"
 }
+
+# ADD GH TRIGGER
+
+resource "google_cloudbuild_trigger" "filename-trigger" {
+  location = "europe-central1"
+
+  trigger_template {
+    branch_name = "dev"
+    repo_name   = google_cloudbuildv2_repository.my-repository.id
+  }
+
+  build {
+    step {
+      name = "ubuntu"
+      script = "echo hello"
+    }
+  }
+}
