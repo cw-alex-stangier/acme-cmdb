@@ -74,7 +74,7 @@ resource "google_cloudbuildv2_repository" "my-repository" {
 # ADD GH TRIGGER
 
 resource "google_cloudbuild_trigger" "filename-trigger" {
-  location = "europe-central1"
+  location = "global"
 
   trigger_template {
     branch_name = "dev"

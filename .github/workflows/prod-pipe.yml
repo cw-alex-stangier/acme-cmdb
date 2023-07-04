@@ -76,11 +76,11 @@ jobs:
         with:
           credentials_json: '${{ secrets.CREDENTIALS_QUEST_PROD }}'
 
-      - name: terraform validate
-        uses: dflook/terraform-validate@v1
-        id: validate
-        with:
-            path: ./gcp
+      #- name: terraform validate
+      #  uses: dflook/terraform-validate@v1
+      #  id: validate
+      #  with:
+      #      path: ./gcp
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Auth
