@@ -42,3 +42,39 @@ resource "google_project_service" "enabled_service" {
 }
 
 
+module "artifacts" {
+  source = "./modules/artifacts"
+
+  target_region = var.target_region
+  target_zone = var.target_zone
+  academy_prefix = var.academy_prefix
+  project_name = var.project_name
+  project = var.project
+  env = var.env
+  repo_name = var.repo_name
+}
+
+module "deployment" {
+  source = "./modules/deployment"
+
+  target_region = var.target_region
+  target_zone = var.target_zone
+  academy_prefix = var.academy_prefix
+  project_name = var.project_name
+  project = var.project
+  env = var.env
+  repo_name = var.repo_name
+}
+
+module "service-accounts" {
+  source = "./modules/service-accounts"
+
+  target_region = var.target_region
+  target_zone = var.target_zone
+  academy_prefix = var.academy_prefix
+  project_name = var.project_name
+  project = var.project
+  env = var.env
+  repo_name = var.repo_name
+}
+
