@@ -12,7 +12,7 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'as-dev-acme-cmdb-run', 
            '--image=europe-west1-docker.pkg.dev/$PROJECT_ID/as-dev-acme-cmdb-registry/as-dev-acme-cmdb:$SHORT_SHA', 
-           '--region', 'europe-west1']
+           '--region', 'europe-west1', '--platform', 'managed']
   
   #Push to Cloud Source Repo
   - name: "gcr.io/cloud-builders/git"
