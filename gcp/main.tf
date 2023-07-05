@@ -14,6 +14,35 @@ provider "google" {
   zone = var.target_zone
 }
 
+variable "gcp_service_list" {
+  description ="The list of apis necessary for the project"
+  type = list(string)
+  default = [
+    "cloudresourcemanager.googleapis.com",
+    "run.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "secretmanager.googleapis.com",
+    "artifactregistry.googleapis.com",
+    "sourcerepo.googleapis.com"
+  ]
+}
+
+#Activate APIs
+resource "google_project_service" "gcp_services" {
+  for_each = toset(var.gcp_service_list)
+  project = "your-project-id"
+  service = each.key
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+
+  #Remove Apis from state so they wont be disabled on destroy
+  provisioner "local-exec" {
+    command = "terraform state rm google_project_service.cp_services"
+  }
+}
+
 resource "random_string" "random" {
   length = 8
   upper  = false
