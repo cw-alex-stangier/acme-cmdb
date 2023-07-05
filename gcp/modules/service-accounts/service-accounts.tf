@@ -72,14 +72,6 @@ resource "google_project_iam_member" "serviceAccountCMDBRole" {
   member = "serviceAccount:${google_service_account.service_account_cmdb.email}"
 }
 
-resource "google_project_iam_member" "serviceAccountCloudRun" { 
-  project = var.project
-  for_each   = toset(["roles/run.admin", "roles/cloudbuild.serviceAgent"])
-  role       = each.key
-
-  member = "serviceAccount:${var.project_number}-compute@developer.gserviceaccount.com"
-}
-
 resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
   project =  var.project
   role = "roles/iam.serviceAccountUser"
@@ -87,7 +79,6 @@ resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
   members = [
     "serviceAccount:${google_service_account.service_account_cmdb.email}",
     "serviceAccount:${google_service_account.service_account_cicd.email}",
-    "serviceAccount:${var.project_number}-compute@developer.gserviceaccount.com",
   ]
 }
 
