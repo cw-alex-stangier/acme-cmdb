@@ -7,16 +7,6 @@ terraform {
   }
 }
 
-locals {
-  project = var.project_name
-  services = [
-    "run.googleapis.com",
-    "artifactregistry.googleapis.com",
-    "sourcerepo.googleapis.com", 
-    "cloudresourcemanager.googleapis.com", 
-  ]
-}
-
 data "google_project" "project" {}
 
 provider "google" {
@@ -29,21 +19,6 @@ resource "random_string" "random" {
   upper  = false
   special = false
 }
-
-#Enable Services
-resource "google_project_service" "enabled_service" {
-  for_each = toset(local.services)
-  project  = var.project
-  service  = each.key
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "sleep 15"
-  }
-}
-
 
 module "artifacts" {
   source = "./modules/artifacts"
