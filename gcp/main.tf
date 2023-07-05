@@ -18,7 +18,6 @@ variable "gcp_service_list" {
   description ="The list of apis necessary for the project"
   type = list(string)
   default = [
-    "cloudresourcemanager.googleapis.com",
     "run.googleapis.com",
     "cloudbuild.googleapis.com",
     "secretmanager.googleapis.com",
@@ -30,7 +29,7 @@ variable "gcp_service_list" {
 #Activate APIs
 resource "google_project_service" "gcp_services" {
   for_each = toset(var.gcp_service_list)
-  project = "your-project-id"
+  project = var.project
   service = each.key
 
   provisioner "local-exec" {
