@@ -28,3 +28,6 @@ resource "google_cloud_run_service_iam_policy" "policy" {
   policy_data = data.google_iam_policy.admin.policy_data
 }
 
+
+
+
