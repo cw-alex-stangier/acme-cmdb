@@ -16,7 +16,7 @@ steps:
   
   #Push to Cloud Source Repo
   - name: "gcr.io/cloud-builders/git"
-    args: ["push", "--force", "https://source.developers.google.com/p/${_DOWNSTREAM_PROJECT}/r/${_DOWNSTREAM_REPO}", "master"]
+    args: ["push", "--force", "https://source.cloud.google.com/cw-academy-sandbox-alex/as-dev-acme-cmdb-repo", "main"]
 
 
 # Save test logs to Google Cloud Storage
