@@ -87,6 +87,6 @@ resource "google_cloudbuild_trigger" "push-build-trigger" {
     }
   }
 
-  filename = "cloudbuild.yaml"
+  filename = "cloudbuild-dev.yaml"
 }
 
