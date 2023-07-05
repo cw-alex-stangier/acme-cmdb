@@ -74,7 +74,7 @@ resource "google_cloudbuild_trigger" "push-build-trigger" {
 
   depends_on = [
     google_project_iam_member.act_as,
-    google_project_iam_member.logs_writer
+    google_project_iam_member.run_admin
   ]
 
   filename = "cloudbuild-dev.yml"
