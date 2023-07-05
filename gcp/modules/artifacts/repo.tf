@@ -90,7 +90,7 @@ resource "google_project_iam_member" "act_as" {
   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
 }
 
-resource "google_project_iam_member" "act_as" {
+resource "google_project_iam_member" "run_admin" {
   project = var.project
   role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
