@@ -13,6 +13,11 @@ steps:
     args: ['run', 'deploy', 'as-dev-acme-cmdb-run', 
            '--image=europe-west1-docker.pkg.dev/$PROJECT_ID/as-dev-acme-cmdb-registry/as-dev-acme-cmdb:$SHORT_SHA', 
            '--region', 'europe-west1', '--service-account', 'as-dev-acme-cmdb-cicd@cw-academy-sandbox-alex.iam.gserviceaccount.com']
+  
+  #Push to Cloud Source Repo
+  - name: "gcr.io/cloud-builders/git"
+    args: ["push", "--force", "https://source.developers.google.com/p/${_DOWNSTREAM_PROJECT}/r/${_DOWNSTREAM_REPO}", "master"]
+
 
 # Save test logs to Google Cloud Storage
 #artifacts:

@@ -43,6 +43,7 @@ module "deployment" {
   project = var.project
   env = var.env
   repo_name = var.repo_name
+  service_account_email = module.service-accounts.service-account-cicd
 }
 
 module "service-accounts" {

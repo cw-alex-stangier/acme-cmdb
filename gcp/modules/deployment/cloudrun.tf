@@ -4,9 +4,9 @@ resource "google_cloud_run_v2_service" "service" {
   project = var.project
 
   template {
+      service_account = var.service_account_email
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
-      #image = "${var.target_region}-docker.pkg.dev/${var.project}/${var.env}-${var.academy_prefix}-acme-cmdb-registry/acme"
     }
   }
 }
