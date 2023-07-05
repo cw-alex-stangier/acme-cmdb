@@ -77,7 +77,7 @@ resource "google_cloudbuild_trigger" "push-build-trigger" {
     google_project_iam_member.run_admin
   ]
 
-  filename = "cloudbuild-dev.yml"
+  filename = "cloudbuild-prod.yml"
 }
 
 resource "google_service_account" "cloudbuild_service_account" {
