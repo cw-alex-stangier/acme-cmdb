@@ -78,6 +78,7 @@ resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
 
   members = [
     "serviceAccount:${google_service_account.service_account_cmdb.email}",
-    "serviceAccount:${google_service_account.service_account_cicd.email}"
+    "serviceAccount:${google_service_account.service_account_cicd.email}",
   ]
 }
+

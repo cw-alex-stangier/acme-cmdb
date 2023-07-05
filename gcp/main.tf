@@ -7,15 +7,7 @@ terraform {
   }
 }
 
-locals {
-  project = var.project_name
-  services = [
-    "run.googleapis.com",
-    "artifactregistry.googleapis.com",
-    "sourcerepo.googleapis.com", 
-    "cloudresourcemanager.googleapis.com", 
-  ]
-}
+data "google_project" "project" {}
 
 provider "google" {
   region = var.target_region
@@ -28,21 +20,6 @@ resource "random_string" "random" {
   special = false
 }
 
-#Enable Services
-resource "google_project_service" "enabled_service" {
-  for_each = toset(local.services)
-  project  = var.project
-  service  = each.key
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "sleep 15"
-  }
-}
-
-
 module "artifacts" {
   source = "./modules/artifacts"
 
@@ -53,6 +30,7 @@ module "artifacts" {
   project = var.project
   env = var.env
   repo_name = var.repo_name
+  project_number = data.google_project.project.number
 }
 
 module "deployment" {
@@ -65,6 +43,7 @@ module "deployment" {
   project = var.project
   env = var.env
   repo_name = var.repo_name
+  service_account_email = module.service-accounts.service-account-cicd
 }
 
 module "service-accounts" {
@@ -77,5 +56,7 @@ module "service-accounts" {
   project = var.project
   env = var.env
   repo_name = var.repo_name
+  project_number = data.google_project.project.number
+
 }
 

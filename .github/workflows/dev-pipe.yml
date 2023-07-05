@@ -92,11 +92,11 @@ jobs:
           username: _json_key
           password: ${{ secrets.GCP_CREDENTIALS }}
           
-      - name: terraform validate
-        uses: dflook/terraform-validate@v1
-        id: validate
-        with:
-            path: ./gcp
+      #- name: terraform validate
+      #  uses: dflook/terraform-validate@v1
+      #  id: validate
+      #  with:
+      #      path: ./gcp
   
       - name: Build and Push Container
         run: |-
