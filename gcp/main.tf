@@ -55,5 +55,7 @@ module "service-accounts" {
   project = var.project
   env = var.env
   repo_name = var.repo_name
+  project_number = data.google_project.project.number
+
 }
 
