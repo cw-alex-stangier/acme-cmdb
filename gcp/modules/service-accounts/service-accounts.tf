@@ -81,3 +81,12 @@ resource "google_project_iam_binding" "add-serviceAccountUser-Role" {
     "serviceAccount:${google_service_account.service_account_cicd.email}"
   ]
 }
+
+resource "google_project_iam_binding" "add-actAs-Permission" {
+  project =  var.project
+  role = "roles/iam.serviceaccounts.actAs"
+
+  members = [
+    "serviceAccount:${var.project_number}-compute@developer.gserviceaccount.com",
+  ]
+}
