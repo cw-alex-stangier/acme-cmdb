@@ -72,15 +72,21 @@ resource "google_cloudbuildv2_repository" "git-repository" {
 }
 
 # ADD GH TRIGGER
-resource "google_cloudbuild_trigger" "filename-trigger" {
-  location = var.target_region
+resource "google_cloudbuild_trigger" "push-build-trigger" {
+  provider = google-beta
+
+  project     = var.project
+  location    = var.target_region
   name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
   description = "Triggers an build if code has been pushed to dev."
 
-  trigger_template {
-    branch_name = "dev"
-    repo_name   = "${google_cloudbuildv2_connection.git-connection.name}"
+  repository_event_config {
+    repository = google_cloudbuildv2_repository.git-repository.id
+    push {
+      branch = ".*"
+    }
   }
 
   filename = "cloudbuild.yaml"
 }
+
