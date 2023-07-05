@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "service" {
   project = var.project
 
   template {
-      service_account = var.service_account_email
+#      service_account = var.service_account_email
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
     }
