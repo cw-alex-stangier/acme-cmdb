@@ -56,31 +56,31 @@ resource "google_cloudbuildv2_repository" "git-repository" {
 }
 
 # ADD GH TRIGGER
-resource "google_cloudbuild_trigger" "push-build-trigger" {
-  provider = google-beta
+#resource "google_cloudbuild_trigger" "push-build-trigger" {
+#  provider = google-beta
 
-  project     = var.project
-  location    = var.target_region
-  name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
-  description = "Triggers an build if code has been pushed to dev."
+#  project     = var.project
+#  location    = var.target_region
+#  name = "${var.academy_prefix}-${var.env}-${var.project_name}-trigger"
+#  description = "Triggers an build if code has been pushed to dev."
 
-  repository_event_config {
-    repository = google_cloudbuildv2_repository.git-repository.id
-    push {
-      branch = ".*"
-      #TODO fix trigger branch
-    }
-  }
+# repository_event_config {
+#    repository = google_cloudbuildv2_repository.git-repository.id
+#   push {
+#      branch = ".*"
+#      #TODO fix trigger branch
+#    }
+#  }
   #service_account = google_service_account.cloudbuild_service_account.id
   #include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 
-  depends_on = [
-    google_project_iam_member.act_as,
-    google_project_iam_member.run_admin
-  ]
+#  depends_on = [
+#    google_project_iam_member.act_as,
+#    google_project_iam_member.run_admin
+#  ]
 
-  filename = "cloudbuild-prod.yml"
-}
+#  filename = "cloudbuild-prod.yml"
+#}
 
 resource "google_service_account" "cloudbuild_service_account" {
   account_id = "cloud-sa"
