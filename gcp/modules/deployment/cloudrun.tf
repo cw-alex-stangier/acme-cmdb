@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "service" {
   project = var.project
 
   template {
-    #service_account = "cloud-sa@cw-academy-g3-quest.iam.gserviceaccount.com"
+    service_account = "cloud-sa@cw-academy-g3-quest.iam.gserviceaccount.com"
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
     }
