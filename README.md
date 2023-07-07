@@ -2,7 +2,7 @@
 
 ## Setup
 
-Run `./gcp terraform apply` in project dir to create the needed infrastructure. Currently used infrastructure is:
+Run `terraform apply` in project the gcp folder to create the needed infrastructure. Currently used infrastructure is:
 ```
 Cloud Source Repository
 Artifact Registry
