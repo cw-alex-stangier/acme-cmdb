@@ -18,11 +18,11 @@ The Api Service will establish two public endpoints:
 
 ### Get compute instances
 Lists all Project related compute instances, sorted by zones. 
-Example Query String: *<cloud run uri>/get_compute_engines*
+Example Query String: *cloud run uri/get_compute_engines*
 
 ### Set state
 Enables the user to stop or start instances, by adressing them by their zone and name.
-Example Query String: *<cloud run uri>/set_state?name=<instance name>&state=<start|stop>&zone=<zone>*
+Example Query String: *cloud run uri/set_state?name=instance-name&state=start|stop&zone=zone*
 
 ## Authentication
 To authenticate to the API you must place a service account key file into the request json body. [This is subject to change]
